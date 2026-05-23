@@ -2,715 +2,520 @@
 <html lang="zh-TW">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
-<title>華雄音樂匯｜銷售諮詢系統</title>
-<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@400;600&family=Noto+Sans+TC:wght@300;400;500;700&display=swap" rel="stylesheet">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>華雄音樂匯｜銷售速查表</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@400;700&family=Noto+Sans+TC:wght@300;400;500;700&display=swap" rel="stylesheet">
 <style>
-*{box-sizing:border-box;margin:0;padding:0;}
-body{font-family:'Noto Sans TC',sans-serif;background:#f5f3ef;color:#1a1a1a;min-height:100vh;}
-.header{background:#1a1208;padding:14px 20px;position:sticky;top:0;z-index:200;display:flex;justify-content:space-between;align-items:center;}
-.header-left .title{font-family:'Noto Serif TC',serif;font-size:18px;color:#c9a227;letter-spacing:2px;}
-.header-left .sub{font-size:10px;color:#7a6030;letter-spacing:3px;margin-top:2px;}
-.compare-btn{background:transparent;border:1px solid #c9a227;color:#c9a227;padding:7px 12px;border-radius:6px;font-size:11px;cursor:pointer;font-family:inherit;display:flex;align-items:center;gap:5px;}
-.compare-badge{background:#e53e3e;color:#fff;border-radius:10px;font-size:10px;padding:1px 6px;display:none;}
-.compare-badge.show{display:inline;}
-.bottom-nav{position:fixed;bottom:0;left:0;right:0;background:#1a1208;border-top:1px solid #2a1f00;display:flex;z-index:200;}
-.nav-btn{flex:1;padding:10px 4px 14px;text-align:center;border:none;background:none;cursor:pointer;font-family:inherit;font-size:9px;color:#6b5010;transition:color 0.2s;letter-spacing:1px;}
-.nav-btn.active{color:#c9a227;}
-.nav-icon{font-size:18px;display:block;margin-bottom:3px;}
-.page{display:none;padding-bottom:75px;}
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent;}
+:root{
+  --gold:#b8942a;--gold-light:#d4af52;--gold-pale:#f5e9c8;
+  --dark:#0f0e0a;--dark2:#1c1a12;--dark3:#2a2618;
+  --text:#1a1710;--text2:#5a5540;--text3:#9a9070;
+  --bg:#f8f5ee;--bg2:#f0ebe0;--bg3:#e8e0d0;
+  --red:#c0392b;--green:#1a6b2a;
+}
+body{font-family:"Noto Sans TC",sans-serif;background:var(--bg);color:var(--text);min-height:100vh;padding-bottom:70px;}
+
+/* ===== HEADER ===== */
+.hdr{background:var(--dark);padding:12px 16px;position:sticky;top:0;z-index:100;display:flex;justify-content:space-between;align-items:center;}
+.hdr-title{font-family:"Noto Serif TC",serif;font-size:17px;color:var(--gold);letter-spacing:2px;}
+.hdr-sub{font-size:10px;color:var(--text3);letter-spacing:3px;margin-top:2px;}
+.hdr-badge{background:var(--gold);color:var(--dark);font-size:10px;font-weight:700;padding:3px 8px;border-radius:3px;letter-spacing:1px;}
+
+/* ===== BOTTOM NAV ===== */
+.bnav{position:fixed;bottom:0;left:0;right:0;background:var(--dark);border-top:1px solid var(--dark3);display:flex;z-index:100;}
+.bnav-btn{flex:1;padding:10px 4px 8px;display:flex;flex-direction:column;align-items:center;gap:3px;cursor:pointer;border:none;background:none;color:var(--text3);font-family:inherit;font-size:10px;transition:color .2s;}
+.bnav-btn.active{color:var(--gold);}
+.bnav-icon{font-size:18px;line-height:1;}
+
+/* ===== PAGES ===== */
+.page{display:none;padding:0 0 16px;}
 .page.active{display:block;}
-.tower-bar{background:#1a1208;padding:12px 20px;border-bottom:1px solid #2a1f00;}
-.tower-pills{display:flex;gap:8px;}
-.tower-pill{padding:7px 22px;border-radius:4px;border:1px solid #4a3800;font-size:13px;cursor:pointer;background:transparent;color:#8b6030;font-family:inherit;font-weight:500;transition:all 0.2s;}
-.tower-pill.active{background:#c9a227;border-color:#c9a227;color:#1a1208;font-weight:700;}
-.unit-chips-wrap{background:#f0ece3;padding:12px 20px;border-bottom:1px solid #ddd;}
-.chips-label{font-size:10px;color:#999;letter-spacing:2px;margin-bottom:8px;}
-.unit-chips{display:flex;flex-wrap:wrap;gap:7px;}
-.unit-chip{padding:7px 16px;border-radius:4px;border:1px solid #c5b99a;font-size:13px;cursor:pointer;background:#fff;color:#5a4a2a;font-family:inherit;font-weight:500;transition:all 0.2s;}
-.unit-chip.active{background:#1a1208;border-color:#1a1208;color:#c9a227;font-weight:700;}
-.unit-detail{padding:16px 20px;}
-.unit-header-card{background:#1a1208;border-radius:10px;padding:18px 20px;margin-bottom:16px;}
-.uh-top{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:14px;}
-.uh-id{font-family:'Noto Serif TC',serif;font-size:42px;color:#c9a227;line-height:1;}
-.uh-type{font-size:12px;color:#8b6030;letter-spacing:2px;margin-top:4px;}
-.uh-price-range{text-align:right;}
-.uh-price-label{font-size:10px;color:#6b5010;letter-spacing:1px;}
-.uh-price-val{font-family:'Noto Serif TC',serif;font-size:17px;color:#c9a227;margin-top:3px;}
-/* 坪數四格 */
-.area-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:1px;background:#2a1f00;border-radius:8px;overflow:hidden;margin-bottom:14px;}
-.area-cell{background:#231810;padding:11px 14px;}
-.area-cell-label{font-size:9px;color:#6b5010;letter-spacing:1px;margin-bottom:4px;}
-.area-cell-val{font-size:19px;color:#c9a227;font-weight:500;line-height:1;}
-.area-cell-unit{font-size:10px;color:#8b6030;margin-left:2px;}
-.area-cell-sub{font-size:10px;color:#5a4020;margin-top:2px;}
-/* 公設比強調 */
-.area-cell.pubset .area-cell-val{color:#e8c050;font-size:16px;}
-.add-compare-btn{width:100%;background:transparent;border:1px solid #4a3800;color:#a07820;padding:9px;border-radius:6px;font-size:12px;cursor:pointer;font-family:inherit;transition:all 0.2s;}
-.add-compare-btn.added{background:#c9a227;border-color:#c9a227;color:#1a1208;font-weight:700;}
-.section-card{background:#fff;border-radius:10px;margin-bottom:12px;overflow:hidden;border:1px solid #e8e2d6;}
-.section-title{background:#f5f0e8;padding:10px 16px;font-size:11px;font-weight:700;letter-spacing:2px;color:#5a4a2a;border-bottom:1px solid #e8e2d6;}
-/* 樓層表 */
-.floor-row{display:grid;grid-template-columns:60px 1fr 1fr 90px;align-items:center;padding:8px 16px;border-bottom:1px solid #f0ebe0;gap:6px;}
-.floor-row:last-child{border-bottom:none;}
-.floor-row.special{background:#fffbf0;}
-.floor-row.header-row{background:#f5f0e8;font-size:10px;color:#888;letter-spacing:1px;padding:6px 16px;}
-.fr-floor{font-size:13px;color:#5a4a2a;font-weight:600;}
-.fr-ping{font-size:11px;color:#999;text-align:center;}
-.fr-area{font-size:10px;color:#aaa;text-align:center;line-height:1.4;}
-.fr-price{font-size:15px;color:#1a1208;font-weight:700;text-align:right;}
-.fr-price.highlight{color:#b8860b;}
-.feature-item{padding:10px 16px;border-bottom:1px solid #f5f0e8;display:flex;gap:10px;align-items:flex-start;}
-.feature-item:last-child{border-bottom:none;}
-.feat-dot{width:6px;height:6px;background:#c9a227;border-radius:50%;flex-shrink:0;margin-top:5px;}
-.feat-text{font-size:13px;color:#333;line-height:1.6;}
-.spec-row{display:flex;padding:9px 16px;border-bottom:1px solid #f5f0e8;}
-.spec-row:last-child{border-bottom:none;}
-.spec-label{font-size:12px;color:#888;width:90px;flex-shrink:0;}
-.spec-val{font-size:12px;color:#222;font-weight:500;flex:1;}
-/* Compare */
-.compare-page-inner{padding:16px 20px;}
-.compare-selector{background:#fff;border-radius:10px;padding:14px 16px;margin-bottom:14px;border:1px solid #e8e2d6;}
-.cs-label{font-size:11px;color:#888;letter-spacing:2px;margin-bottom:10px;}
-.cs-chips{display:flex;flex-wrap:wrap;gap:7px;}
-.cs-chip{padding:6px 14px;border-radius:4px;border:1px solid #ccc;font-size:12px;cursor:pointer;background:#fff;color:#555;font-family:inherit;transition:all 0.2s;}
-.cs-chip.selected{background:#1a1208;border-color:#1a1208;color:#c9a227;}
-.cs-chip.disabled{opacity:0.4;cursor:not-allowed;}
-.compare-table-wrap{background:#fff;border-radius:10px;border:1px solid #e8e2d6;overflow:hidden;}
-.ct-header{display:grid;border-bottom:2px solid #1a1208;}
-.ct-row{display:grid;border-bottom:1px solid #f0ebe0;}
-.ct-row:last-child{border-bottom:none;}
-.ct-label{background:#f5f0e8;padding:10px 14px;font-size:11px;color:#5a4a2a;font-weight:700;letter-spacing:1px;display:flex;align-items:center;}
-.ct-cell{padding:10px 14px;font-size:13px;color:#222;border-left:1px solid #f0ebe0;display:flex;align-items:center;justify-content:center;text-align:center;}
-.ct-cell.best{color:#b8860b;font-weight:700;}
-.ct-unit-id{font-family:'Noto Serif TC',serif;font-size:22px;color:#c9a227;}
-.ct-unit-type{font-size:10px;color:#888;letter-spacing:1px;}
-.compare-empty{text-align:center;padding:40px 20px;color:#aaa;font-size:14px;}
-.ct-2{grid-template-columns:100px 1fr 1fr;}
-.ct-3{grid-template-columns:100px 1fr 1fr 1fr;}
-.ct-1{grid-template-columns:100px 1fr;}
-/* Budget */
-.budget-inner{padding:16px 20px;}
-.budget-form{background:#fff;border-radius:10px;padding:16px;margin-bottom:16px;border:1px solid #e8e2d6;}
-.budget-title{font-size:11px;color:#888;letter-spacing:2px;margin-bottom:12px;}
-.budget-inputs{display:flex;align-items:center;gap:10px;}
-.budget-input{flex:1;border:1px solid #ddd;border-radius:6px;padding:10px 12px;font-size:15px;font-family:inherit;color:#1a1208;outline:none;}
-.budget-input:focus{border-color:#c9a227;}
-.budget-sep{color:#999;font-size:14px;}
-.budget-search-btn{background:#1a1208;color:#c9a227;border:none;padding:10px 18px;border-radius:6px;font-size:13px;cursor:pointer;font-family:inherit;font-weight:700;}
-.budget-results{background:#fff;border-radius:10px;border:1px solid #e8e2d6;overflow:hidden;}
-.br-header{background:#1a1208;padding:10px 16px;font-size:11px;color:#8b6030;letter-spacing:2px;}
-.br-item{display:flex;justify-content:space-between;align-items:center;padding:11px 16px;border-bottom:1px solid #f5f0e8;cursor:pointer;}
-.br-item:last-child{border-bottom:none;}
-.br-item:active{background:#f5f0e8;}
-.br-left .br-unit{font-size:14px;font-weight:600;color:#1a1208;}
-.br-left .br-info{font-size:12px;color:#888;margin-top:2px;}
-.br-price{font-size:16px;color:#b8860b;font-weight:700;}
-.br-arrow{color:#ccc;font-size:14px;margin-left:8px;}
-.budget-empty{text-align:center;padding:30px;color:#aaa;font-size:13px;}
-.placeholder{text-align:center;padding:60px 20px;color:#aaa;}
-.ph-icon{font-size:40px;margin-bottom:10px;}
-.ph-text{font-size:14px;}
+
+/* ===== BROWSE PAGE ===== */
+.tower-bar{display:flex;gap:8px;padding:12px 16px;background:var(--bg2);border-bottom:1px solid var(--bg3);}
+.tower-pill{flex:1;padding:8px;text-align:center;border:1.5px solid var(--bg3);border-radius:6px;background:var(--bg);cursor:pointer;font-size:13px;font-weight:500;color:var(--text2);transition:all .2s;}
+.tower-pill.active{background:var(--dark);color:var(--gold);border-color:var(--gold);}
+
+.unit-grid{display:flex;flex-wrap:wrap;gap:8px;padding:12px 16px;}
+.unit-chip{padding:8px 14px;border:1.5px solid var(--bg3);border-radius:8px;background:var(--bg);cursor:pointer;font-size:13px;font-weight:500;color:var(--text2);transition:all .2s;text-align:center;}
+.unit-chip.active{background:var(--dark2);color:var(--gold-light);border-color:var(--gold);}
+
+/* ===== DETAIL CARD ===== */
+.detail{padding:0 16px;}
+.d-header{background:var(--dark2);border-radius:12px 12px 0 0;padding:16px;margin-top:8px;}
+.d-unitname{font-family:"Noto Serif TC",serif;font-size:22px;color:var(--gold);font-weight:700;}
+.d-meta{display:flex;flex-wrap:wrap;gap:8px;margin-top:8px;}
+.d-tag{background:rgba(184,148,42,.15);border:1px solid rgba(184,148,42,.3);color:var(--gold-light);font-size:11px;padding:3px 8px;border-radius:4px;}
+.d-tagred{background:rgba(192,57,43,.1);border:1px solid rgba(192,57,43,.3);color:#e74c3c;font-size:11px;padding:3px 8px;border-radius:4px;}
+
+.d-area{background:var(--bg2);border:1px solid var(--bg3);border-top:none;padding:12px 16px;display:flex;flex-wrap:wrap;gap:8px;}
+.d-aitem{flex:1;min-width:120px;}
+.d-alabel{font-size:10px;color:var(--text3);letter-spacing:1px;}
+.d-aval{font-size:15px;font-weight:700;color:var(--text);margin-top:2px;}
+
+.d-ptitle{font-size:11px;color:var(--text3);letter-spacing:2px;padding:12px 0 6px;text-transform:uppercase;}
+.price-table{width:100%;border-collapse:collapse;border-radius:8px;overflow:hidden;border:1px solid var(--bg3);}
+.price-table th{background:var(--dark);color:var(--gold-light);font-size:11px;padding:8px 10px;text-align:center;font-weight:500;letter-spacing:1px;}
+.price-table td{padding:7px 10px;text-align:center;font-size:13px;border-top:1px solid var(--bg3);}
+.price-table tr:nth-child(even) td{background:var(--bg2);}
+.price-table tr:hover td{background:var(--gold-pale);}
+.price-table .fl{font-weight:600;color:var(--text2);}
+.price-table .pr{font-weight:700;color:var(--text);font-size:14px;}
+.price-table .pr-hi{color:var(--red);font-weight:700;}
+.price-table .pr-lo{color:var(--green);}
+.special-row td{background:#fffbe6!important;}
+.special-row .fl{color:var(--gold);}
+
+/* ===== COMPARE PAGE ===== */
+.cmp-select{padding:12px 16px;}
+.cmp-title{font-size:12px;color:var(--text3);letter-spacing:2px;margin-bottom:8px;}
+.cmp-chips{display:flex;flex-wrap:wrap;gap:6px;}
+.cmp-chip{padding:6px 12px;border:1.5px solid var(--bg3);border-radius:6px;background:var(--bg);cursor:pointer;font-size:12px;color:var(--text2);transition:all .2s;}
+.cmp-chip.selected{background:var(--dark2);color:var(--gold-light);border-color:var(--gold);}
+.cmp-chip.disabled{opacity:.35;cursor:not-allowed;}
+.cmp-table-wrap{padding:0 16px;overflow-x:auto;}
+.cmp-table{width:100%;border-collapse:collapse;min-width:280px;}
+.cmp-table th{background:var(--dark);color:var(--gold-light);padding:8px 10px;font-size:11px;text-align:center;letter-spacing:1px;}
+.cmp-table td{padding:8px 10px;border-top:1px solid var(--bg3);font-size:12px;text-align:center;vertical-align:top;}
+.cmp-table tr:nth-child(even) td{background:var(--bg2);}
+.cmp-table .row-label{text-align:left;color:var(--text3);font-size:11px;letter-spacing:1px;background:var(--bg3)!important;}
+.cmp-best{color:var(--red);font-weight:700;}
+.cmp-clear{margin:12px 16px 0;padding:8px;background:none;border:1px solid var(--bg3);border-radius:6px;font-family:inherit;font-size:12px;color:var(--text2);cursor:pointer;width:calc(100% - 32px);}
+
+/* ===== BUDGET PAGE ===== */
+.budget-form{padding:12px 16px;background:var(--bg2);border-bottom:1px solid var(--bg3);}
+.budget-row{display:flex;gap:8px;align-items:center;margin-bottom:8px;}
+.budget-label{font-size:12px;color:var(--text3);width:36px;flex-shrink:0;}
+.budget-input{flex:1;padding:8px 10px;border:1.5px solid var(--bg3);border-radius:6px;font-size:14px;font-family:inherit;background:var(--bg);color:var(--text);}
+.budget-unit{font-size:12px;color:var(--text3);flex-shrink:0;}
+.budget-btn{width:100%;padding:10px;background:var(--dark);color:var(--gold);font-family:inherit;font-size:14px;font-weight:600;border:none;border-radius:8px;cursor:pointer;letter-spacing:2px;}
+.budget-results{padding:12px 16px;}
+.bres-header{font-size:12px;color:var(--text3);letter-spacing:2px;margin-bottom:8px;}
+.bres-item{display:flex;justify-content:space-between;align-items:center;padding:10px 12px;background:var(--bg);border:1px solid var(--bg3);border-radius:8px;margin-bottom:6px;cursor:pointer;transition:all .2s;}
+.bres-item:hover{border-color:var(--gold);background:var(--gold-pale);}
+.bres-left .bres-unit{font-weight:700;font-size:14px;}
+.bres-left .bres-info{font-size:11px;color:var(--text3);margin-top:2px;}
+.bres-price{font-size:16px;font-weight:700;color:var(--red);}
+.bres-arrow{color:var(--text3);margin-left:8px;}
+.empty-msg{text-align:center;color:var(--text3);padding:40px 16px;font-size:14px;}
+
+/* ===== ES PAGE ===== */
+.es-grid{padding:12px 16px;display:flex;flex-direction:column;gap:8px;}
+.es-card{background:var(--bg);border:1px solid var(--bg3);border-radius:10px;padding:14px;}
+.es-name{font-family:"Noto Serif TC",serif;font-size:18px;font-weight:700;color:var(--dark);}
+.es-floor{font-size:12px;color:var(--text3);margin-top:2px;}
+.es-info{display:flex;justify-content:space-between;align-items:center;margin-top:10px;}
+.es-ping{font-size:13px;color:var(--text2);}
+.es-price{font-size:20px;font-weight:700;color:var(--red);}
+.es-note{font-size:11px;color:var(--text3);margin-top:6px;}
+
+.section-header{padding:12px 16px 4px;font-size:11px;color:var(--text3);letter-spacing:3px;}
 </style>
 </head>
 <body>
-<div class="header">
-  <div class="header-left">
-    <div class="title">華雄音樂匯</div>
-    <div class="sub">HWAHSIUNG MUSIC SQUARE</div>
+
+<div class="hdr">
+  <div>
+    <div class="hdr-title">華雄音樂匯</div>
+    <div class="hdr-sub">MAESTRO RESIDENCE</div>
   </div>
-  <button class="compare-btn" onclick="showPage('compare')">
-    ⚖ 比較 <span class="compare-badge" id="compare-badge">0</span>
-  </button>
+  <div class="hdr-badge">銷售速查</div>
 </div>
+
+<!-- ===== PAGE: BROWSE ===== -->
 <div class="page active" id="page-browse">
   <div class="tower-bar">
-    <div class="tower-pills">
-      <button class="tower-pill active" id="tower-A" onclick="selectTower('A')">A 棟</button>
-      <button class="tower-pill" id="tower-B" onclick="selectTower('B')">B 棟</button>
-    </div>
+    <div class="tower-pill active" id="tower-A" onclick="switchTower('A')">A 棟</div>
+    <div class="tower-pill" id="tower-B" onclick="switchTower('B')">B 棟</div>
+    <div class="tower-pill" id="tower-ES" onclick="switchTower('ES')">ES 店面</div>
   </div>
-  <div class="unit-chips-wrap">
-    <div class="chips-label">選擇戶型</div>
-    <div class="unit-chips" id="unit-chips"></div>
-  </div>
-  <div id="unit-detail-area">
-    <div class="placeholder"><div class="ph-icon">🏠</div><div class="ph-text">請選擇戶型</div></div>
-  </div>
+  <div class="unit-grid" id="unit-chips"></div>
+  <div class="detail" id="unit-detail"></div>
 </div>
+
+<!-- ===== PAGE: COMPARE ===== -->
 <div class="page" id="page-compare">
-  <div class="compare-page-inner">
-    <div class="compare-selector">
-      <div class="cs-label">選擇要比較的戶型（最多3個）</div>
-      <div class="cs-chips" id="compare-chips"></div>
-    </div>
-    <div id="compare-table-area"><div class="compare-empty">請選擇至少兩個戶型</div></div>
+  <div class="cmp-select">
+    <div class="cmp-title">選擇最多 3 個戶型比較</div>
+    <div class="cmp-chips" id="cmp-chips"></div>
   </div>
+  <button class="cmp-clear" onclick="clearCompare()">清除比較</button>
+  <div class="cmp-table-wrap" id="cmp-content"></div>
 </div>
+
+<!-- ===== PAGE: BUDGET ===== -->
 <div class="page" id="page-budget">
-  <div class="budget-inner">
-    <div class="budget-form">
-      <div class="budget-title">輸入預算範圍（萬元）</div>
-      <div class="budget-inputs">
-        <input class="budget-input" id="budget-min" type="number" placeholder="最低" inputmode="numeric">
-        <span class="budget-sep">～</span>
-        <input class="budget-input" id="budget-max" type="number" placeholder="最高" inputmode="numeric">
-        <button class="budget-search-btn" onclick="searchBudget()">查詢</button>
-      </div>
+  <div class="budget-form">
+    <div class="budget-row">
+      <span class="budget-label">預算</span>
+      <input class="budget-input" id="bmin" type="number" placeholder="最低" step="50">
+      <span class="budget-unit">萬 ～</span>
+      <input class="budget-input" id="bmax" type="number" placeholder="最高" step="50">
+      <span class="budget-unit">萬</span>
     </div>
-    <div id="budget-results"></div>
+    <button class="budget-btn" onclick="searchBudget()">查詢符合戶型</button>
+  </div>
+  <div id="budget-results"></div>
+</div>
+
+<!-- ===== PAGE: ES ===== -->
+<div class="page" id="page-es">
+  <div class="section-header">ES 系列店面／特殊單位</div>
+  <div class="es-grid" id="es-content"></div>
+  <div class="section-header" style="margin-top:8px;">停車位參考價格</div>
+  <div style="padding:0 16px 12px;">
+    <table class="price-table">
+      <thead><tr><th>類型</th><th>坪數</th><th>定價(萬)</th><th>車位尺寸</th></tr></thead>
+      <tbody>
+        <tr><td class="fl">B1大車位</td><td>13.46</td><td class="pr">270</td><td>275×600cm</td></tr>
+        <tr><td class="fl">B1小車位</td><td>8.83</td><td class="pr">250</td><td>250×550cm</td></tr>
+        <tr><td class="fl">B1切子母</td><td>13.46</td><td class="pr">360</td><td>250×1040cm</td></tr>
+        <tr><td class="fl">B1母車位</td><td>7.54</td><td class="pr">240</td><td>230×550cm</td></tr>
+        <tr><td class="fl">B1小車位</td><td>6.75</td><td class="pr">240</td><td>230×550cm</td></tr>
+        <tr><td class="fl">B2大車位</td><td>13.46</td><td class="pr">320</td><td>250×1040cm</td></tr>
+        <tr><td class="fl">B2小車位</td><td>7.54</td><td class="pr">220</td><td>250×550cm</td></tr>
+        <tr><td class="fl">B2切子母</td><td>12.16</td><td class="pr">300</td><td>250×550cm</td></tr>
+        <tr><td class="fl">B3大車位</td><td>13.46</td><td class="pr">300</td><td>230×1040cm</td></tr>
+        <tr><td class="fl">B3小車位</td><td>7.54</td><td class="pr">210</td><td>230×550cm</td></tr>
+        <tr><td class="fl">B4大車位</td><td>12.16</td><td class="pr">280</td><td>250×1040cm</td></tr>
+        <tr><td class="fl">B4小車位</td><td>7.54</td><td class="pr">170</td><td>250×550cm</td></tr>
+        <tr><td class="fl">B5小車位</td><td>6.75</td><td class="pr">150</td><td>230×550cm</td></tr>
+      </tbody>
+    </table>
   </div>
 </div>
-<div class="bottom-nav">
-  <button class="nav-btn active" id="nav-browse" onclick="showPage('browse')">
-    <span class="nav-icon">🏠</span>戶型查詢
-  </button>
-  <button class="nav-btn" id="nav-compare" onclick="showPage('compare')">
-    <span class="nav-icon">⚖</span>戶型比較
-  </button>
-  <button class="nav-btn" id="nav-budget" onclick="showPage('budget')">
-    <span class="nav-icon">💰</span>預算查詢
-  </button>
+
+<!-- ===== BOTTOM NAV ===== -->
+<div class="bnav">
+  <button class="bnav-btn active" onclick="showPage('browse')"><span class="bnav-icon">🏠</span>戶型查詢</button>
+  <button class="bnav-btn" onclick="showPage('compare')"><span class="bnav-icon">⚖️</span>戶型比較</button>
+  <button class="bnav-btn" onclick="showPage('budget')"><span class="bnav-icon">💰</span>預算查詢</button>
+  <button class="bnav-btn" onclick="showPage('es')"><span class="bnav-icon">🏪</span>ES/車位</button>
 </div>
+
 <script>
-const units = {
-  A1:{
-    id:"A1",tower:"A",type:"三房兩廳兩衛",rooms:3,baths:2,
-    area:{main:24.72,balcony:2.83,private:27.55,publicSet:16.00,total:43.55,publicRatio:36.74},
-    note:"2F 露台0.66坪；23F頂層放大至54.60坪（主建物30.39＋陽台4.15＋公設20.06）",
-    features:["三面採光大宅，客廳、主臥、次臥均享充裕採光","方正格局無浪費空間，動線規劃流暢","主臥附獨立衛浴，隱私佳","廚房獨立設計，油煙不入室","23F頂層特大坪數54.60坪，公設比36.73%"],
-    specs:[{l:"格局",v:"3房2廳2衛"},{l:"主要朝向",v:"南向/東向"},{l:"公設比",v:"36.74%"},{l:"特色",v:"三面採光"}],
+// ===== DATA =====
+const UNITS = {
+  A1:{id:'A1',tower:'A',type:'3房2廳2衛',ping:43.55,ping_note:'23F頂樓54.60坪',
+    features:['頂樓23F大坪數特殊戶','主建物43.55坪/24.72坪室內','陽台9.37坪','公設比36.74%','土地持分496/13.76坪'],
     floors:[
-      {f:"2F",total:43.50,main:24.72,balcony:2.78,pub:16.00,price:1188,special:false},
-      {f:"3F",total:43.55,main:24.72,balcony:2.83,pub:16.00,price:1216,special:false},
-      {f:"4F",total:43.55,main:24.72,balcony:2.83,pub:16.00,price:1230,special:false},
-      {f:"5F",total:43.55,main:24.72,balcony:2.83,pub:16.00,price:1244,special:false},
-      {f:"6F",total:43.55,main:24.72,balcony:2.83,pub:16.00,price:1258,special:false},
-      {f:"7F",total:43.55,main:24.72,balcony:2.83,pub:16.00,price:1272,special:false},
-      {f:"8F",total:43.55,main:24.72,balcony:2.83,pub:16.00,price:1286,special:false},
-      {f:"9F",total:43.55,main:24.72,balcony:2.83,pub:16.00,price:1300,special:false},
-      {f:"10F",total:43.55,main:24.72,balcony:2.83,pub:16.00,price:1314,special:false},
-      {f:"11F",total:43.55,main:24.72,balcony:2.83,pub:16.00,price:1328,special:false},
-      {f:"12F",total:43.55,main:24.72,balcony:2.83,pub:16.00,price:1342,special:false},
-      {f:"13F",total:43.55,main:24.72,balcony:2.83,pub:16.00,price:1356,special:false},
-      {f:"14F",total:43.55,main:24.72,balcony:2.83,pub:16.00,price:1370,special:false},
-      {f:"15F",total:43.55,main:24.72,balcony:2.83,pub:16.00,price:1384,special:false},
-      {f:"16F",total:43.55,main:24.72,balcony:2.83,pub:16.00,price:1398,special:false},
-      {f:"17F",total:43.55,main:24.72,balcony:2.83,pub:16.00,price:1412,special:false},
-      {f:"18F",total:43.55,main:24.72,balcony:2.83,pub:16.00,price:1426,special:false},
-      {f:"19F",total:43.55,main:24.72,balcony:2.83,pub:16.00,price:1440,special:false},
-      {f:"20F",total:43.55,main:24.72,balcony:2.83,pub:16.00,price:1454,special:false},
-      {f:"21F",total:43.55,main:24.72,balcony:2.83,pub:16.00,price:1468,special:false},
-      {f:"22F",total:43.55,main:24.72,balcony:2.83,pub:16.00,price:1482,special:false},
-      {f:"23F頂",total:54.60,main:30.39,balcony:4.15,pub:20.06,price:3338,special:true}
-    ]
-  },
-  A2:{
-    id:"A2",tower:"A",type:"三房兩廳兩衛",rooms:3,baths:2,
-    area:{main:23.30,balcony:4.09,private:27.39,publicSet:15.90,total:43.29,publicRatio:36.73},
-    note:"2F 權狀40.88坪（縮小版，另有露台0.70坪）；23F頂層放大至53.27坪（主建物30.89＋陽台2.79，另含露台36.94坪）",
-    features:["三房方正格局，每個房間皆有對外窗","雙衛浴配置，主臥衛浴獨立","客餐廳開放連通，空間感寬闊","23F頂層總計53.27坪，另附露台36.94坪"],
-    specs:[{l:"格局",v:"3房2廳2衛"},{l:"主要朝向",v:"北向/西向"},{l:"公設比",v:"36.73%"},{l:"陽台",v:"4.09坪（標準層）"}],
+      {f:'23F',p:3338,note:'頂樓特殊54.60坪'},
+      {f:'22F',p:2047},{f:'21F',p:1993},{f:'20F',p:1945},{f:'19F',p:1903},
+      {f:'18F',p:1863},{f:'17F',p:1828},{f:'16F',p:1800},{f:'15F',p:1776},
+      {f:'14F',p:1762},{f:'13F',p:1747},{f:'12F',p:1733},{f:'11F',p:1718},
+      {f:'10F',p:1703},{f:'9F',p:1688},{f:'8F',p:1668},{f:'7F',p:1655},
+      {f:'6F',p:1640},{f:'5F',p:1622},{f:'4F',p:1596},{f:'3F',p:1583},{f:'2F',p:1558}
+    ]},
+  A2:{id:'A2',tower:'A',type:'3房2廳2衛',ping:43.29,ping_note:'23F頂樓53.27坪，2F=40.88坪',
+    features:['頂樓23F大坪數特殊戶','主建物43.29坪/23.30坪室內','陽台13.53坪','公設比36.73%','土地持分493/13.68坪'],
     floors:[
-      {f:"2F",total:40.88,main:23.30,balcony:2.56,pub:15.02,price:1118,special:false},
-      {f:"3F",total:43.29,main:23.30,balcony:4.09,pub:15.90,price:1183,special:false},
-      {f:"4F",total:43.29,main:23.30,balcony:4.09,pub:15.90,price:1197,special:false},
-      {f:"5F",total:43.29,main:23.30,balcony:4.09,pub:15.90,price:1211,special:false},
-      {f:"6F",total:43.29,main:23.30,balcony:4.09,pub:15.90,price:1225,special:false},
-      {f:"7F",total:43.29,main:23.30,balcony:4.09,pub:15.90,price:1239,special:false},
-      {f:"8F",total:43.29,main:23.30,balcony:4.09,pub:15.90,price:1253,special:false},
-      {f:"9F",total:43.29,main:23.30,balcony:4.09,pub:15.90,price:1267,special:false},
-      {f:"10F",total:43.29,main:23.30,balcony:4.09,pub:15.90,price:1281,special:false},
-      {f:"11F",total:43.29,main:23.30,balcony:4.09,pub:15.90,price:1295,special:false},
-      {f:"12F",total:43.29,main:23.30,balcony:4.09,pub:15.90,price:1309,special:false},
-      {f:"13F",total:43.29,main:23.30,balcony:4.09,pub:15.90,price:1323,special:false},
-      {f:"14F",total:43.29,main:23.30,balcony:4.09,pub:15.90,price:1337,special:false},
-      {f:"15F",total:43.29,main:23.30,balcony:4.09,pub:15.90,price:1351,special:false},
-      {f:"16F",total:43.29,main:23.30,balcony:4.09,pub:15.90,price:1365,special:false},
-      {f:"17F",total:43.29,main:23.30,balcony:4.09,pub:15.90,price:1379,special:false},
-      {f:"18F",total:43.29,main:23.30,balcony:4.09,pub:15.90,price:1393,special:false},
-      {f:"19F",total:43.29,main:23.30,balcony:4.09,pub:15.90,price:1407,special:false},
-      {f:"20F",total:43.29,main:23.30,balcony:4.09,pub:15.90,price:1421,special:false},
-      {f:"21F",total:43.29,main:23.30,balcony:4.09,pub:15.90,price:1435,special:false},
-      {f:"22F",total:43.29,main:23.30,balcony:4.09,pub:15.90,price:1449,special:false},
-      {f:"23F頂",total:53.27,main:30.89,balcony:2.79,pub:19.59,price:2030,special:true}
-    ]
-  },
-  A3:{
-    id:"A3",tower:"A",type:"二房兩廳一衛",rooms:2,baths:1,
-    area:{main:14.10,balcony:4.02,private:18.12,publicSet:10.49,total:28.61,publicRatio:36.68},
-    note:"4F特殊放大至45.44坪（主建物22.36＋陽台6.40）；2F縮版28.61坪（陽台僅2.50坪）",
-    features:["二房精緻格局，總坪控制在28坪，總價親民","客廳採光佳，生活感十足","4F特殊大坪數45.44坪，主建物22.36坪","適合首購族或投資置產","與A5對稱格局，可橫向比較"],
-    specs:[{l:"格局",v:"2房2廳1衛"},{l:"主要朝向",v:"東向"},{l:"公設比",v:"36.68%"},{l:"特色",v:"與A5對稱"}],
+      {f:'23F',p:3178,note:'頂樓特殊53.27坪'},
+      {f:'22F',p:2025},{f:'21F',p:1973},{f:'20F',p:1926},{f:'19F',p:1883},
+      {f:'18F',p:1845},{f:'17F',p:1812},{f:'16F',p:1783},{f:'15F',p:1760},
+      {f:'14F',p:1745},{f:'13F',p:1730},{f:'12F',p:1716},{f:'11F',p:1702},
+      {f:'10F',p:1688},{f:'9F',p:1673},{f:'8F',p:1655},{f:'7F',p:1642},
+      {f:'6F',p:1626},{f:'5F',p:1608},{f:'4F',p:1583},{f:'3F',p:1568},
+      {f:'2F',p:1486,note:'特殊坪數40.88坪'}
+    ]},
+  A3:{id:'A3',tower:'A',type:'2房2廳1衛',ping:28.61,ping_note:'4F=45.44坪，2F=28.21坪',
+    features:['4F特殊大坪數45.44坪','主建物28.61坪/14.10坪室內','陽台13.29坪','公設比36.68%','土地持分304/8.43坪'],
     floors:[
-      {f:"2F",total:28.61,main:14.10,balcony:4.02,pub:10.49,price:877,special:false},
-      {f:"3F",total:28.61,main:14.10,balcony:4.02,pub:10.49,price:892,special:false},
-      {f:"4F特",total:45.44,main:22.36,balcony:6.40,pub:16.68,price:1419,special:true},
-      {f:"5F",total:28.61,main:14.10,balcony:4.02,pub:10.49,price:910,special:false},
-      {f:"6F",total:28.61,main:14.10,balcony:4.02,pub:10.49,price:919,special:false},
-      {f:"7F",total:28.61,main:14.10,balcony:4.02,pub:10.49,price:928,special:false},
-      {f:"8F",total:28.61,main:14.10,balcony:4.02,pub:10.49,price:937,special:false},
-      {f:"9F",total:28.61,main:14.10,balcony:4.02,pub:10.49,price:946,special:false},
-      {f:"10F",total:28.61,main:14.10,balcony:4.02,pub:10.49,price:955,special:false},
-      {f:"11F",total:28.61,main:14.10,balcony:4.02,pub:10.49,price:964,special:false},
-      {f:"12F",total:28.61,main:14.10,balcony:4.02,pub:10.49,price:973,special:false},
-      {f:"13F",total:28.61,main:14.10,balcony:4.02,pub:10.49,price:982,special:false},
-      {f:"14F",total:28.61,main:14.10,balcony:4.02,pub:10.49,price:991,special:false},
-      {f:"15F",total:28.61,main:14.10,balcony:4.02,pub:10.49,price:1000,special:false},
-      {f:"16F",total:28.61,main:14.10,balcony:4.02,pub:10.49,price:1009,special:false},
-      {f:"17F",total:28.61,main:14.10,balcony:4.02,pub:10.49,price:1018,special:false},
-      {f:"18F",total:28.61,main:14.10,balcony:4.02,pub:10.49,price:1027,special:false},
-      {f:"19F",total:28.61,main:14.10,balcony:4.02,pub:10.49,price:1036,special:false},
-      {f:"20F",total:28.61,main:14.10,balcony:4.02,pub:10.49,price:1045,special:false},
-      {f:"21F",total:28.61,main:14.10,balcony:4.02,pub:10.49,price:1054,special:false},
-      {f:"22F",total:28.61,main:14.10,balcony:4.02,pub:10.49,price:1063,special:false}
-    ]
-  },
-  A5:{
-    id:"A5",tower:"A",type:"二房兩廳一衛",rooms:2,baths:1,
-    area:{main:14.10,balcony:4.02,private:18.12,publicSet:10.49,total:28.61,publicRatio:36.68},
-    note:"2F縮版26.21坪（主建物14.10＋陽台2.50）；3F起恢復標準28.61坪",
-    features:["二房格局南向採光佳","廚房獨立實用性高","2F特殊坪數26.21坪，總價最低","適合首購族或投資收租","與A3對稱格局可比較選擇"],
-    specs:[{l:"格局",v:"2房2廳1衛"},{l:"主要朝向",v:"南向"},{l:"公設比",v:"36.68%"},{l:"首購",v:"總價親民"}],
+      {f:'22F',p:1328},{f:'21F',p:1293},{f:'20F',p:1263},{f:'19F',p:1235},
+      {f:'18F',p:1210},{f:'17F',p:1188},{f:'16F',p:1168},{f:'15F',p:1155},
+      {f:'14F',p:1145},{f:'13F',p:1135},{f:'12F',p:1126},{f:'11F',p:1117},
+      {f:'10F',p:1107},{f:'9F',p:1098},{f:'8F',p:1086},{f:'7F',p:1077},
+      {f:'6F',p:1067},{f:'5F',p:1055},{f:'4F',p:1028,note:'特殊45.44坪'},
+      {f:'3F',p:1028},{f:'2F',p:946,note:'特殊28.21坪'}
+    ]},
+  A5:{id:'A5',tower:'A',type:'2房2廳1衛',ping:28.61,ping_note:'2F=26.21坪',
+    features:['主建物28.61坪/14.10坪室內','陽台13.29坪','公設比36.68%','土地持分304/8.43坪','2F特殊坪數26.21坪'],
     floors:[
-      {f:"2F",total:26.21,main:14.10,balcony:2.50,pub:9.61,price:816,special:false},
-      {f:"3F",total:28.61,main:14.10,balcony:4.02,pub:10.49,price:892,special:false},
-      {f:"4F",total:28.61,main:14.10,balcony:4.02,pub:10.49,price:901,special:false},
-      {f:"5F",total:28.61,main:14.10,balcony:4.02,pub:10.49,price:910,special:false},
-      {f:"6F",total:28.61,main:14.10,balcony:4.02,pub:10.49,price:919,special:false},
-      {f:"7F",total:28.61,main:14.10,balcony:4.02,pub:10.49,price:928,special:false},
-      {f:"8F",total:28.61,main:14.10,balcony:4.02,pub:10.49,price:937,special:false},
-      {f:"9F",total:28.61,main:14.10,balcony:4.02,pub:10.49,price:946,special:false},
-      {f:"10F",total:28.61,main:14.10,balcony:4.02,pub:10.49,price:955,special:false},
-      {f:"11F",total:28.61,main:14.10,balcony:4.02,pub:10.49,price:964,special:false},
-      {f:"12F",total:28.61,main:14.10,balcony:4.02,pub:10.49,price:973,special:false},
-      {f:"13F",total:28.61,main:14.10,balcony:4.02,pub:10.49,price:982,special:false},
-      {f:"14F",total:28.61,main:14.10,balcony:4.02,pub:10.49,price:991,special:false},
-      {f:"15F",total:28.61,main:14.10,balcony:4.02,pub:10.49,price:1000,special:false},
-      {f:"16F",total:28.61,main:14.10,balcony:4.02,pub:10.49,price:1009,special:false},
-      {f:"17F",total:28.61,main:14.10,balcony:4.02,pub:10.49,price:1018,special:false},
-      {f:"18F",total:28.61,main:14.10,balcony:4.02,pub:10.49,price:1027,special:false},
-      {f:"19F",total:28.61,main:14.10,balcony:4.02,pub:10.49,price:1036,special:false},
-      {f:"20F",total:28.61,main:14.10,balcony:4.02,pub:10.49,price:1045,special:false},
-      {f:"21F",total:28.61,main:14.10,balcony:4.02,pub:10.49,price:1054,special:false},
-      {f:"22F",total:28.61,main:14.10,balcony:4.02,pub:10.49,price:1063,special:false}
-    ]
-  },
-  A6:{
-    id:"A6",tower:"A",type:"三房兩廳兩衛",rooms:3,baths:2,
-    area:{main:22.10,balcony:4.50,private:26.60,publicSet:15.43,total:42.03,publicRatio:36.71},
-    note:"2F縮版40.42坪（陽台較小）；標準層3F起42.03坪",
-    features:["三房標準格局，適合三口之家","主臥套房設計，獨立衛浴","客餐廳動線佳","陽台4.50坪，生活空間充裕","廚房封閉設計，避免油煙外溢"],
-    specs:[{l:"格局",v:"3房2廳2衛"},{l:"主要朝向",v:"西向/南向"},{l:"公設比",v:"36.71%"},{l:"陽台",v:"4.50坪"}],
+      {f:'22F',p:1328},{f:'21F',p:1293},{f:'20F',p:1263},{f:'19F',p:1235},
+      {f:'18F',p:1210},{f:'17F',p:1188},{f:'16F',p:1168},{f:'15F',p:1155},
+      {f:'14F',p:1145},{f:'13F',p:1135},{f:'12F',p:1126},{f:'11F',p:1117},
+      {f:'10F',p:1107},{f:'9F',p:1098},{f:'8F',p:1086},{f:'7F',p:1077},
+      {f:'6F',p:1067},{f:'5F',p:1055},{f:'4F',p:1028},{f:'3F',p:1028},
+      {f:'2F',p:946,note:'特殊26.21坪'}
+    ]},
+  A6:{id:'A6',tower:'A',type:'3房2廳2衛',ping:42.03,ping_note:'2F=39.58坪',
+    features:['主建物42.03坪/22.30坪室內','陽台17.08坪','公設比36.76%','土地持分483/13.40坪','2F特殊坪數39.58坪'],
     floors:[
-      {f:"2F",total:40.42,main:22.10,balcony:3.82,pub:14.86,price:1036,special:false},
-      {f:"3F",total:42.03,main:22.10,balcony:4.50,pub:15.43,price:1101,special:false},
-      {f:"4F",total:42.03,main:22.10,balcony:4.50,pub:15.43,price:1113,special:false},
-      {f:"5F",total:42.03,main:22.10,balcony:4.50,pub:15.43,price:1125,special:false},
-      {f:"6F",total:42.03,main:22.10,balcony:4.50,pub:15.43,price:1137,special:false},
-      {f:"7F",total:42.03,main:22.10,balcony:4.50,pub:15.43,price:1149,special:false},
-      {f:"8F",total:42.03,main:22.10,balcony:4.50,pub:15.43,price:1161,special:false},
-      {f:"9F",total:42.03,main:22.10,balcony:4.50,pub:15.43,price:1173,special:false},
-      {f:"10F",total:42.03,main:22.10,balcony:4.50,pub:15.43,price:1185,special:false},
-      {f:"11F",total:42.03,main:22.10,balcony:4.50,pub:15.43,price:1197,special:false},
-      {f:"12F",total:42.03,main:22.10,balcony:4.50,pub:15.43,price:1209,special:false},
-      {f:"13F",total:42.03,main:22.10,balcony:4.50,pub:15.43,price:1221,special:false},
-      {f:"14F",total:42.03,main:22.10,balcony:4.50,pub:15.43,price:1233,special:false},
-      {f:"15F",total:42.03,main:22.10,balcony:4.50,pub:15.43,price:1245,special:false},
-      {f:"16F",total:42.03,main:22.10,balcony:4.50,pub:15.43,price:1257,special:false},
-      {f:"17F",total:42.03,main:22.10,balcony:4.50,pub:15.43,price:1269,special:false},
-      {f:"18F",total:42.03,main:22.10,balcony:4.50,pub:15.43,price:1281,special:false},
-      {f:"19F",total:42.03,main:22.10,balcony:4.50,pub:15.43,price:1293,special:false},
-      {f:"20F",total:42.03,main:22.10,balcony:4.50,pub:15.43,price:1305,special:false},
-      {f:"21F",total:42.03,main:22.10,balcony:4.50,pub:15.43,price:1317,special:false},
-      {f:"22F",total:42.03,main:22.10,balcony:4.50,pub:15.43,price:1329,special:false}
-    ]
-  },
-  A7:{
-    id:"A7",tower:"A",type:"三房兩廳兩衛",rooms:3,baths:2,
-    area:{main:21.74,balcony:5.16,private:26.90,publicSet:15.64,total:42.54,publicRatio:36.76},
-    note:"2F縮版40.42坪（陽台3.82坪，另有露台3.05坪）；標準層3F起42.54坪；陽台5.16坪為A棟最大",
-    features:["邊間大宅，三面採光通透感強","陽台5.16坪，A棟最大陽台","2F另有露台3.05坪","三房格局方正，主臥設套衛","A棟邊間稀有性高，增值潛力佳"],
-    specs:[{l:"格局",v:"3房2廳2衛"},{l:"特色",v:"邊間三面採光"},{l:"公設比",v:"36.76%"},{l:"陽台",v:"5.16坪（A棟最大）"}],
+      {f:'22F',p:1965},{f:'21F',p:1913},{f:'20F',p:1866},{f:'19F',p:1825},
+      {f:'18F',p:1788},{f:'17F',p:1756},{f:'16F',p:1728},{f:'15F',p:1706},
+      {f:'14F',p:1690},{f:'13F',p:1678},{f:'12F',p:1665},{f:'11F',p:1650},
+      {f:'10F',p:1636},{f:'9F',p:1623},{f:'8F',p:1605},{f:'7F',p:1590},
+      {f:'6F',p:1577},{f:'5F',p:1558},{f:'4F',p:1536},{f:'3F',p:1522},
+      {f:'2F',p:1428,note:'特殊39.58坪'}
+    ]},
+  A7:{id:'A7',tower:'A',type:'3房2廳2衛',ping:42.54,ping_note:'2F=40.42坪',
+    features:['主建物42.54坪/21.74坪室內','陽台17.08坪','公設比36.76%','土地持分483/13.40坪','2F特殊坪數40.42坪'],
     floors:[
-      {f:"2F",total:40.42,main:21.74,balcony:3.82,pub:14.86,price:1059,special:false},
-      {f:"3F",total:42.54,main:21.74,balcony:5.16,pub:15.64,price:1115,special:false},
-      {f:"4F",total:42.54,main:21.74,balcony:5.16,pub:15.64,price:1127,special:false},
-      {f:"5F",total:42.54,main:21.74,balcony:5.16,pub:15.64,price:1139,special:false},
-      {f:"6F",total:42.54,main:21.74,balcony:5.16,pub:15.64,price:1151,special:false},
-      {f:"7F",total:42.54,main:21.74,balcony:5.16,pub:15.64,price:1163,special:false},
-      {f:"8F",total:42.54,main:21.74,balcony:5.16,pub:15.64,price:1175,special:false},
-      {f:"9F",total:42.54,main:21.74,balcony:5.16,pub:15.64,price:1187,special:false},
-      {f:"10F",total:42.54,main:21.74,balcony:5.16,pub:15.64,price:1199,special:false},
-      {f:"11F",total:42.54,main:21.74,balcony:5.16,pub:15.64,price:1211,special:false},
-      {f:"12F",total:42.54,main:21.74,balcony:5.16,pub:15.64,price:1223,special:false},
-      {f:"13F",total:42.54,main:21.74,balcony:5.16,pub:15.64,price:1235,special:false},
-      {f:"14F",total:42.54,main:21.74,balcony:5.16,pub:15.64,price:1247,special:false},
-      {f:"15F",total:42.54,main:21.74,balcony:5.16,pub:15.64,price:1259,special:false},
-      {f:"16F",total:42.54,main:21.74,balcony:5.16,pub:15.64,price:1271,special:false},
-      {f:"17F",total:42.54,main:21.74,balcony:5.16,pub:15.64,price:1283,special:false},
-      {f:"18F",total:42.54,main:21.74,balcony:5.16,pub:15.64,price:1295,special:false},
-      {f:"19F",total:42.54,main:21.74,balcony:5.16,pub:15.64,price:1307,special:false},
-      {f:"20F",total:42.54,main:21.74,balcony:5.16,pub:15.64,price:1319,special:false},
-      {f:"21F",total:42.54,main:21.74,balcony:5.16,pub:15.64,price:1331,special:false},
-      {f:"22F",total:42.54,main:21.74,balcony:5.16,pub:15.64,price:1343,special:false}
-    ]
-  },
-  B1:{
-    id:"B1",tower:"B",type:"三房兩廳兩衛",rooms:3,baths:2,
-    area:{main:18.43,balcony:2.22,private:20.65,publicSet:12.00,total:32.65,publicRatio:36.75},
-    note:"2F特殊大坪數60.52坪（主建物32.05坪）；21F起B1轉換為較小戶型；另2B1含露台28.91坪",
-    features:["標準層主建物18.43坪＋陽台2.22坪","2F超大坪數60.52坪，主建物32.05坪","2F另附露台28.91坪，超值","公設比36.75%合理","B棟地段便利，生活機能完善"],
-    specs:[{l:"格局",v:"3房2廳2衛"},{l:"公設比",v:"36.75%"},{l:"陽台",v:"2.22坪（標準層）"},{l:"特色",v:"2F超大坪數"}],
+      {f:'22F',p:1946},{f:'21F',p:1896},{f:'20F',p:1850},{f:'19F',p:1808},
+      {f:'18F',p:1770},{f:'17F',p:1738},{f:'16F',p:1710},{f:'15F',p:1687},
+      {f:'14F',p:1673},{f:'13F',p:1660},{f:'12F',p:1645},{f:'11F',p:1630},
+      {f:'10F',p:1616},{f:'9F',p:1603},{f:'8F',p:1585},{f:'7F',p:1570},
+      {f:'6F',p:1555},{f:'5F',p:1537},{f:'4F',p:1515},{f:'3F',p:1500},
+      {f:'2F',p:1455,note:'特殊40.42坪'}
+    ]},
+  B1:{id:'B1',tower:'B',type:'2房2廳2衛',ping:32.65,ping_note:'23F頂樓60.52坪',
+    features:['頂樓23F大坪數特殊戶60.52坪','主建物32.65坪/18.64坪室內','陽台11.03坪','公設比36.77%','土地持分382/10.60坪'],
     floors:[
-      {f:"2F特",total:60.52,main:32.05,balcony:2.23,pub:20.65,price:1481,special:true},
-      {f:"3F",total:32.65,main:18.43,balcony:2.22,pub:12.00,price:853,special:false},
-      {f:"4F",total:32.65,main:18.43,balcony:2.22,pub:12.00,price:863,special:false},
-      {f:"5F",total:32.65,main:18.43,balcony:2.22,pub:12.00,price:873,special:false},
-      {f:"6F",total:32.65,main:18.43,balcony:2.22,pub:12.00,price:883,special:false},
-      {f:"7F",total:32.65,main:18.43,balcony:2.22,pub:12.00,price:893,special:false},
-      {f:"8F",total:32.65,main:18.43,balcony:2.22,pub:12.00,price:903,special:false},
-      {f:"9F",total:32.65,main:18.43,balcony:2.22,pub:12.00,price:913,special:false},
-      {f:"10F",total:32.65,main:18.43,balcony:2.22,pub:12.00,price:923,special:false},
-      {f:"11F",total:32.65,main:18.43,balcony:2.22,pub:12.00,price:933,special:false},
-      {f:"12F",total:32.65,main:18.43,balcony:2.22,pub:12.00,price:943,special:false},
-      {f:"13F",total:32.65,main:18.43,balcony:2.22,pub:12.00,price:953,special:false},
-      {f:"14F",total:32.65,main:18.43,balcony:2.22,pub:12.00,price:963,special:false},
-      {f:"15F",total:32.65,main:18.43,balcony:2.22,pub:12.00,price:973,special:false},
-      {f:"16F",total:32.65,main:18.43,balcony:2.22,pub:12.00,price:983,special:false},
-      {f:"17F",total:32.65,main:18.43,balcony:2.22,pub:12.00,price:993,special:false},
-      {f:"18F",total:32.65,main:18.43,balcony:2.22,pub:12.00,price:1003,special:false},
-      {f:"19F",total:32.65,main:18.43,balcony:2.22,pub:12.00,price:1013,special:false},
-      {f:"20F",total:32.65,main:18.43,balcony:2.22,pub:12.00,price:1023,special:false},
-      {f:"21F",total:32.65,main:18.43,balcony:2.22,pub:12.00,price:1033,special:false},
-      {f:"22F",total:32.65,main:18.43,balcony:2.22,pub:12.00,price:1043,special:false},
-      {f:"23F",total:32.65,main:18.43,balcony:2.22,pub:12.00,price:1053,special:false}
-    ]
-  },
-  B2:{
-    id:"B2",tower:"B",type:"三房兩廳兩衛",rooms:3,baths:2,
-    area:{main:16.81,balcony:3.79,private:20.60,publicSet:11.95,total:32.55,publicRatio:36.71},
-    note:"2F特殊大坪數60.53坪（主建物32.04坪＋陽台6.25坪）；標準層主建物16.81坪",
-    features:["標準層主建物16.81坪＋陽台3.79坪","2F超大坪數60.53坪，主建物32.04坪","格局方正，動線規劃佳","廚房獨立，油煙不擾客廳","公設比36.71%合理"],
-    specs:[{l:"格局",v:"3房2廳2衛"},{l:"公設比",v:"36.71%"},{l:"陽台",v:"3.79坪（標準層）"},{l:"特色",v:"2F超大坪數"}],
+      {f:'23F',p:3350,note:'頂樓特殊60.52坪'},
+      {f:'22F',p:1527},{f:'21F',p:1487},{f:'20F',p:1450},{f:'19F',p:1418},
+      {f:'18F',p:1388},{f:'17F',p:1365},{f:'16F',p:1342},{f:'15F',p:1325},
+      {f:'14F',p:1313},{f:'13F',p:1302},{f:'12F',p:1290},{f:'11F',p:1280},
+      {f:'10F',p:1270},{f:'9F',p:1258},{f:'8F',p:1245},{f:'7F',p:1233},
+      {f:'6F',p:1222},{f:'5F',p:1207},{f:'4F',p:1195},{f:'3F',p:1188},
+      {f:'2F',p:1195}
+    ]},
+  B2:{id:'B2',tower:'B',type:'2房2廳2衛',ping:32.55,ping_note:'23F頂樓60.53坪',
+    features:['頂樓23F大坪數特殊戶60.53坪','主建物32.55坪/18.64坪室內','陽台11.03坪','公設比36.77%','土地持分382/10.60坪'],
     floors:[
-      {f:"2F特",total:60.53,main:32.04,balcony:6.25,pub:22.24,price:1480,special:true},
-      {f:"3F",total:32.55,main:16.81,balcony:3.79,pub:11.95,price:851,special:false},
-      {f:"4F",total:32.55,main:16.81,balcony:3.79,pub:11.95,price:861,special:false},
-      {f:"5F",total:32.55,main:16.81,balcony:3.79,pub:11.95,price:871,special:false},
-      {f:"6F",total:32.55,main:16.81,balcony:3.79,pub:11.95,price:881,special:false},
-      {f:"7F",total:32.55,main:16.81,balcony:3.79,pub:11.95,price:891,special:false},
-      {f:"8F",total:32.55,main:16.81,balcony:3.79,pub:11.95,price:901,special:false},
-      {f:"9F",total:32.55,main:16.81,balcony:3.79,pub:11.95,price:911,special:false},
-      {f:"10F",total:32.55,main:16.81,balcony:3.79,pub:11.95,price:921,special:false},
-      {f:"11F",total:32.55,main:16.81,balcony:3.79,pub:11.95,price:931,special:false},
-      {f:"12F",total:32.55,main:16.81,balcony:3.79,pub:11.95,price:941,special:false},
-      {f:"13F",total:32.55,main:16.81,balcony:3.79,pub:11.95,price:951,special:false},
-      {f:"14F",total:32.55,main:16.81,balcony:3.79,pub:11.95,price:961,special:false},
-      {f:"15F",total:32.55,main:16.81,balcony:3.79,pub:11.95,price:971,special:false},
-      {f:"16F",total:32.55,main:16.81,balcony:3.79,pub:11.95,price:981,special:false},
-      {f:"17F",total:32.55,main:16.81,balcony:3.79,pub:11.95,price:991,special:false},
-      {f:"18F",total:32.55,main:16.81,balcony:3.79,pub:11.95,price:1001,special:false},
-      {f:"19F",total:32.55,main:16.81,balcony:3.79,pub:11.95,price:1011,special:false},
-      {f:"20F",total:32.55,main:16.81,balcony:3.79,pub:11.95,price:1021,special:false},
-      {f:"21F",total:32.55,main:16.81,balcony:3.79,pub:11.95,price:1031,special:false},
-      {f:"22F",total:32.55,main:16.81,balcony:3.79,pub:11.95,price:1041,special:false},
-      {f:"23F",total:32.55,main:16.81,balcony:3.79,pub:11.95,price:1051,special:false}
-    ]
-  },
-  B3:{
-    id:"B3",tower:"B",type:"三房兩廳兩衛",rooms:3,baths:2,
-    area:{main:18.64,balcony:3.33,private:21.97,publicSet:12.78,total:34.75,publicRatio:36.77},
-    note:"B棟坪數最大的標準層戶型；3F起可售",
-    features:["B棟坪數最大標準層34.75坪","主建物18.64坪＋陽台3.33坪","三房兩廳格局適合三口之家","公設比36.77%，B棟偏低","定價合理，性價比B棟名列前茅"],
-    specs:[{l:"格局",v:"3房2廳2衛"},{l:"公設比",v:"36.77%"},{l:"陽台",v:"3.33坪"},{l:"特色",v:"B棟最大標準層"}],
+      {f:'23F',p:3377,note:'頂樓特殊60.53坪'},
+      {f:'22F',p:1490},{f:'21F',p:1452},{f:'20F',p:1417},{f:'19F',p:1385},
+      {f:'18F',p:1356},{f:'17F',p:1332},{f:'16F',p:1310},{f:'15F',p:1293},
+      {f:'14F',p:1282},{f:'13F',p:1272},{f:'12F',p:1260},{f:'11F',p:1250},
+      {f:'10F',p:1238},{f:'9F',p:1227},{f:'8F',p:1215},{f:'7F',p:1205},
+      {f:'6F',p:1193},{f:'5F',p:1177},{f:'4F',p:1162},{f:'3F',p:1183},
+      {f:'2F',p:1183}
+    ]},
+  B3:{id:'B3',tower:'B',type:'2房2廳2衛',ping:34.75,ping_note:'標準坪數',
+    features:['主建物34.75坪/18.64坪室內','陽台11.03坪','公設比36.77%','土地持分382/10.60坪','含露台1.69坪'],
     floors:[
-      {f:"3F",total:34.75,main:18.64,balcony:3.33,pub:12.78,price:910,special:false},
-      {f:"4F",total:34.75,main:18.64,balcony:3.33,pub:12.78,price:921,special:false},
-      {f:"5F",total:34.75,main:18.64,balcony:3.33,pub:12.78,price:932,special:false},
-      {f:"6F",total:34.75,main:18.64,balcony:3.33,pub:12.78,price:943,special:false},
-      {f:"7F",total:34.75,main:18.64,balcony:3.33,pub:12.78,price:954,special:false},
-      {f:"8F",total:34.75,main:18.64,balcony:3.33,pub:12.78,price:965,special:false},
-      {f:"9F",total:34.75,main:18.64,balcony:3.33,pub:12.78,price:976,special:false},
-      {f:"10F",total:34.75,main:18.64,balcony:3.33,pub:12.78,price:987,special:false},
-      {f:"11F",total:34.75,main:18.64,balcony:3.33,pub:12.78,price:998,special:false},
-      {f:"12F",total:34.75,main:18.64,balcony:3.33,pub:12.78,price:1009,special:false},
-      {f:"13F",total:34.75,main:18.64,balcony:3.33,pub:12.78,price:1020,special:false},
-      {f:"14F",total:34.75,main:18.64,balcony:3.33,pub:12.78,price:1031,special:false},
-      {f:"15F",total:34.75,main:18.64,balcony:3.33,pub:12.78,price:1042,special:false},
-      {f:"16F",total:34.75,main:18.64,balcony:3.33,pub:12.78,price:1053,special:false},
-      {f:"17F",total:34.75,main:18.64,balcony:3.33,pub:12.78,price:1064,special:false},
-      {f:"18F",total:34.75,main:18.64,balcony:3.33,pub:12.78,price:1075,special:false},
-      {f:"19F",total:34.75,main:18.64,balcony:3.33,pub:12.78,price:1086,special:false},
-      {f:"20F",total:34.75,main:18.64,balcony:3.33,pub:12.78,price:1097,special:false},
-      {f:"21F",total:34.75,main:18.64,balcony:3.33,pub:12.78,price:1108,special:false},
-      {f:"22F",total:34.75,main:18.64,balcony:3.33,pub:12.78,price:1119,special:false},
-      {f:"23F",total:34.75,main:18.64,balcony:3.33,pub:12.78,price:1130,special:false}
-    ]
-  },
-  B5:{
-    id:"B5",tower:"B",type:"三房兩廳兩衛",rooms:3,baths:2,
-    area:{main:18.47,balcony:2.22,private:20.69,publicSet:11.99,total:32.68,publicRatio:36.72},
-    note:"3F起可售；主建物18.47坪＋陽台2.22坪；公設11.99坪",
-    features:["三房格局，精緻規劃，坪效極佳","主建物18.47坪＋陽台2.22坪","廚房與餐廳相連，烹飪動線流暢","主臥附套衛，生活品質有保障","公設比36.72%合理"],
-    specs:[{l:"格局",v:"3房2廳2衛"},{l:"公設比",v:"36.72%"},{l:"陽台",v:"2.22坪"},{l:"主要朝向",v:"西向"}],
+      {f:'22F',p:1626},{f:'21F',p:1585},{f:'20F',p:1545},{f:'19F',p:1512},
+      {f:'18F',p:1482},{f:'17F',p:1455},{f:'16F',p:1432},{f:'15F',p:1413},
+      {f:'14F',p:1402},{f:'13F',p:1390},{f:'12F',p:1378},{f:'11F',p:1366},
+      {f:'10F',p:1355},{f:'9F',p:1345},{f:'8F',p:1328},{f:'7F',p:1317},
+      {f:'6F',p:1306},{f:'5F',p:1290},{f:'4F',p:1272},{f:'3F',p:1272},
+      {f:'2F',p:1282}
+    ]},
+  B5:{id:'B5',tower:'B',type:'2房2廳2衛',ping:32.68,ping_note:'標準坪數',
+    features:['主建物32.68坪/18.64坪室內','陽台11.03坪','公設比36.77%','土地持分382/10.60坪'],
     floors:[
-      {f:"3F",total:32.68,main:18.47,balcony:2.22,pub:11.99,price:854,special:false},
-      {f:"4F",total:32.68,main:18.47,balcony:2.22,pub:11.99,price:864,special:false},
-      {f:"5F",total:32.68,main:18.47,balcony:2.22,pub:11.99,price:874,special:false},
-      {f:"6F",total:32.68,main:18.47,balcony:2.22,pub:11.99,price:884,special:false},
-      {f:"7F",total:32.68,main:18.47,balcony:2.22,pub:11.99,price:894,special:false},
-      {f:"8F",total:32.68,main:18.47,balcony:2.22,pub:11.99,price:904,special:false},
-      {f:"9F",total:32.68,main:18.47,balcony:2.22,pub:11.99,price:914,special:false},
-      {f:"10F",total:32.68,main:18.47,balcony:2.22,pub:11.99,price:924,special:false},
-      {f:"11F",total:32.68,main:18.47,balcony:2.22,pub:11.99,price:934,special:false},
-      {f:"12F",total:32.68,main:18.47,balcony:2.22,pub:11.99,price:944,special:false},
-      {f:"13F",total:32.68,main:18.47,balcony:2.22,pub:11.99,price:954,special:false},
-      {f:"14F",total:32.68,main:18.47,balcony:2.22,pub:11.99,price:964,special:false},
-      {f:"15F",total:32.68,main:18.47,balcony:2.22,pub:11.99,price:974,special:false},
-      {f:"16F",total:32.68,main:18.47,balcony:2.22,pub:11.99,price:984,special:false},
-      {f:"17F",total:32.68,main:18.47,balcony:2.22,pub:11.99,price:994,special:false},
-      {f:"18F",total:32.68,main:18.47,balcony:2.22,pub:11.99,price:1004,special:false},
-      {f:"19F",total:32.68,main:18.47,balcony:2.22,pub:11.99,price:1014,special:false},
-      {f:"20F",total:32.68,main:18.47,balcony:2.22,pub:11.99,price:1024,special:false},
-      {f:"21F",total:32.68,main:18.47,balcony:2.22,pub:11.99,price:1034,special:false},
-      {f:"22F",total:32.68,main:18.47,balcony:2.22,pub:11.99,price:1044,special:false},
-      {f:"23F",total:32.68,main:18.47,balcony:2.22,pub:11.99,price:1054,special:false}
-    ]
-  },
-  B6:{
-    id:"B6",tower:"B",type:"二房兩廳一衛",rooms:2,baths:1,
-    area:{main:14.43,balcony:1.29,private:15.72,publicSet:9.13,total:24.85,publicRatio:36.78},
-    note:"2F特殊坪數37.60坪（無詳細拆分，依比例推算露台面積）；標準層主建物14.43坪＋陽台1.29坪",
-    features:["全案總價最親民，入場門檻最低","標準層主建物14.43坪＋陽台1.29坪","2F特殊坪數37.60坪，物超所值","適合首購族、小家庭或投資收租","B棟最低總價，轉手性佳"],
-    specs:[{l:"格局",v:"2房2廳1衛"},{l:"公設比",v:"36.78%"},{l:"陽台",v:"1.29坪（標準層）"},{l:"特色",v:"最低總價入場"}],
+      {f:'22F',p:1528},{f:'21F',p:1488},{f:'20F',p:1452},{f:'19F',p:1420},
+      {f:'18F',p:1390},{f:'17F',p:1365},{f:'16F',p:1343},{f:'15F',p:1325},
+      {f:'14F',p:1315},{f:'13F',p:1303},{f:'12F',p:1292},{f:'11F',p:1282},
+      {f:'10F',p:1272},{f:'9F',p:1260},{f:'8F',p:1245},{f:'7F',p:1233},
+      {f:'6F',p:1222},{f:'5F',p:1208},{f:'4F',p:1190},{f:'3F',p:1190},
+      {f:'2F',p:1200}
+    ]},
+  B6:{id:'B6',tower:'B',type:'1房1廳1衛',ping:24.85,ping_note:'4F=37.60坪特殊',
+    features:['主建物24.85坪/14.43坪室內','陽台7.34坪','公設比36.78%','土地持分255/7.07坪','4F特殊大坪數37.60坪'],
     floors:[
-      {f:"2F特",total:37.60,main:14.43,balcony:1.29,pub:9.13,price:920,special:true},
-      {f:"3F",total:24.85,main:14.43,balcony:1.29,pub:9.13,price:647,special:false},
-      {f:"4F",total:24.85,main:14.43,balcony:1.29,pub:9.13,price:655,special:false},
-      {f:"5F",total:24.85,main:14.43,balcony:1.29,pub:9.13,price:663,special:false},
-      {f:"6F",total:24.85,main:14.43,balcony:1.29,pub:9.13,price:671,special:false},
-      {f:"7F",total:24.85,main:14.43,balcony:1.29,pub:9.13,price:679,special:false},
-      {f:"8F",total:24.85,main:14.43,balcony:1.29,pub:9.13,price:687,special:false},
-      {f:"9F",total:24.85,main:14.43,balcony:1.29,pub:9.13,price:695,special:false},
-      {f:"10F",total:24.85,main:14.43,balcony:1.29,pub:9.13,price:703,special:false},
-      {f:"11F",total:24.85,main:14.43,balcony:1.29,pub:9.13,price:711,special:false},
-      {f:"12F",total:24.85,main:14.43,balcony:1.29,pub:9.13,price:719,special:false},
-      {f:"13F",total:24.85,main:14.43,balcony:1.29,pub:9.13,price:727,special:false},
-      {f:"14F",total:24.85,main:14.43,balcony:1.29,pub:9.13,price:735,special:false},
-      {f:"15F",total:24.85,main:14.43,balcony:1.29,pub:9.13,price:743,special:false},
-      {f:"16F",total:24.85,main:14.43,balcony:1.29,pub:9.13,price:751,special:false},
-      {f:"17F",total:24.85,main:14.43,balcony:1.29,pub:9.13,price:759,special:false},
-      {f:"18F",total:24.85,main:14.43,balcony:1.29,pub:9.13,price:767,special:false},
-      {f:"19F",total:24.85,main:14.43,balcony:1.29,pub:9.13,price:775,special:false},
-      {f:"20F",total:24.85,main:14.43,balcony:1.29,pub:9.13,price:783,special:false},
-      {f:"21F",total:24.85,main:14.43,balcony:1.29,pub:9.13,price:791,special:false},
-      {f:"22F",total:24.85,main:14.43,balcony:1.29,pub:9.13,price:799,special:false},
-      {f:"23F",total:24.85,main:14.43,balcony:1.29,pub:9.13,price:807,special:false}
-    ]
-  },
-  B7:{
-    id:"B7",tower:"B",type:"二房兩廳一衛",rooms:2,baths:1,
-    area:{main:14.43,balcony:1.29,private:15.72,publicSet:9.13,total:24.85,publicRatio:36.78},
-    note:"3F起可售；主建物14.43坪＋陽台1.29坪；B棟邊間",
-    features:["B棟邊間，採光通透，景觀視野佳","主建物14.43坪＋陽台1.29坪","客廳直向配置，視覺感更寬敞","與B6坪數相同，但邊間附加價值更高","適合自住或投資收租兩用"],
-    specs:[{l:"格局",v:"2房2廳1衛"},{l:"公設比",v:"36.78%"},{l:"陽台",v:"1.29坪"},{l:"特色",v:"B棟邊間稀有"}],
+      {f:'22F',p:1162},{f:'21F',p:1132},{f:'20F',p:1105},{f:'19F',p:1080},
+      {f:'18F',p:1057},{f:'17F',p:1037},{f:'16F',p:1020},{f:'15F',p:1007},
+      {f:'14F',p:1000},{f:'13F',p:946},{f:'12F',p:938},{f:'11F',p:930},
+      {f:'10F',p:922},{f:'9F',p:913},{f:'8F',p:902},{f:'7F',p:895},
+      {f:'6F',p:885},{f:'5F',p:875},{f:'4F',p:1370,note:'特殊37.60坪'},
+      {f:'3F',p:853},{f:'2F',p:853}
+    ]},
+  B7:{id:'B7',tower:'B',type:'1房1廳1衛',ping:24.85,ping_note:'標準坪數',
+    features:['主建物24.85坪/14.43坪室內','陽台7.34坪','公設比36.78%','土地持分255/7.07坪'],
     floors:[
-      {f:"3F",total:24.85,main:14.43,balcony:1.29,pub:9.13,price:647,special:false},
-      {f:"4F",total:24.85,main:14.43,balcony:1.29,pub:9.13,price:655,special:false},
-      {f:"5F",total:24.85,main:14.43,balcony:1.29,pub:9.13,price:663,special:false},
-      {f:"6F",total:24.85,main:14.43,balcony:1.29,pub:9.13,price:671,special:false},
-      {f:"7F",total:24.85,main:14.43,balcony:1.29,pub:9.13,price:679,special:false},
-      {f:"8F",total:24.85,main:14.43,balcony:1.29,pub:9.13,price:687,special:false},
-      {f:"9F",total:24.85,main:14.43,balcony:1.29,pub:9.13,price:695,special:false},
-      {f:"10F",total:24.85,main:14.43,balcony:1.29,pub:9.13,price:703,special:false},
-      {f:"11F",total:24.85,main:14.43,balcony:1.29,pub:9.13,price:711,special:false},
-      {f:"12F",total:24.85,main:14.43,balcony:1.29,pub:9.13,price:719,special:false},
-      {f:"13F",total:24.85,main:14.43,balcony:1.29,pub:9.13,price:727,special:false},
-      {f:"14F",total:24.85,main:14.43,balcony:1.29,pub:9.13,price:735,special:false},
-      {f:"15F",total:24.85,main:14.43,balcony:1.29,pub:9.13,price:743,special:false},
-      {f:"16F",total:24.85,main:14.43,balcony:1.29,pub:9.13,price:751,special:false},
-      {f:"17F",total:24.85,main:14.43,balcony:1.29,pub:9.13,price:759,special:false},
-      {f:"18F",total:24.85,main:14.43,balcony:1.29,pub:9.13,price:767,special:false},
-      {f:"19F",total:24.85,main:14.43,balcony:1.29,pub:9.13,price:775,special:false},
-      {f:"20F",total:24.85,main:14.43,balcony:1.29,pub:9.13,price:783,special:false},
-      {f:"21F",total:24.85,main:14.43,balcony:1.29,pub:9.13,price:791,special:false},
-      {f:"22F",total:24.85,main:14.43,balcony:1.29,pub:9.13,price:799,special:false},
-      {f:"23F",total:24.85,main:14.43,balcony:1.29,pub:9.13,price:807,special:false}
-    ]
-  }
+      {f:'22F',p:1162},{f:'21F',p:1132},{f:'20F',p:1105},{f:'19F',p:1080},
+      {f:'18F',p:1057},{f:'17F',p:1037},{f:'16F',p:1020},{f:'15F',p:1007},
+      {f:'14F',p:955},{f:'13F',p:946},{f:'12F',p:938},{f:'11F',p:930},
+      {f:'10F',p:922},{f:'9F',p:913},{f:'8F',p:902},{f:'7F',p:895},
+      {f:'6F',p:885},{f:'5F',p:875},{f:'4F',p:875},{f:'3F',p:875},
+      {f:'2F',p:853}
+    ]}
 };
 
-let currentTower="A",currentUnit=null,compareList=[];
+const ES_UNITS = [
+  {id:'ES1',floors:'1F',ping:65.90,price:4100,note:'S1-32樓'},
+  {id:'ES2',floors:'1F',ping:50.15,price:3010,note:'S2,S7,S8,S9-25樓'},
+  {id:'ES3',floors:'1F',ping:29.34,price:1890,note:'S3,S5,S6-25樓'},
+  {id:'ES5',floors:'1F',ping:32.36,price:2085,note:''},
+  {id:'ES6',floors:'1F',ping:39.18,price:2350,note:''},
+  {id:'ES7',floors:'1F+2F',ping:49.38,price:2415,note:''},
+  {id:'ES8',floors:'1F+2F',ping:49.37,price:2415,note:''},
+  {id:'ES9',floors:'1F+2F',ping:54.50,price:2605,note:''},
+];
 
-function getUnit(id){return units[id];}
-function getTowerUnits(t){return Object.values(units).filter(u=>u.tower===t);}
-function minPrice(u){return Math.min(...u.floors.map(f=>f.price));}
-function maxPrice(u){return Math.max(...u.floors.map(f=>f.price));}
+// ===== STATE =====
+let currentTower='A', currentUnit='A1', compareList=[];
 
+// ===== NAVIGATION =====
 function showPage(name){
-  document.querySelectorAll(".page").forEach(p=>p.classList.remove("active"));
-  document.querySelectorAll(".nav-btn").forEach(b=>b.classList.remove("active"));
-  document.getElementById("page-"+name).classList.add("active");
-  document.getElementById("nav-"+name).classList.add("active");
-  if(name==="compare"){renderCompareTable();renderCompareSelector();}
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('.bnav-btn').forEach(b=>b.classList.remove('active'));
+  document.getElementById('page-'+name).classList.add('active');
+  const idx={'browse':0,'compare':1,'budget':2,'es':3}[name];
+  document.querySelectorAll('.bnav-btn')[idx].classList.add('active');
+  if(name==='compare') renderCompare();
+  if(name==='es') renderES();
 }
 
-function selectTower(t){
-  currentTower=t;currentUnit=null;
-  document.querySelectorAll(".tower-pill").forEach(p=>p.classList.remove("active"));
-  document.getElementById("tower-"+t).classList.add("active");
+// ===== TOWER / CHIPS =====
+function switchTower(t){
+  currentTower=t;
+  document.querySelectorAll('.tower-pill').forEach(p=>p.classList.remove('active'));
+  document.getElementById('tower-'+t).classList.add('active');
   renderChips();
-  document.getElementById("unit-detail-area").innerHTML='<div class="placeholder"><div class="ph-icon">🏠</div><div class="ph-text">請選擇戶型</div></div>';
+  if(t==='ES'){document.getElementById('unit-chips').innerHTML='';document.getElementById('unit-detail').innerHTML='';return;}
+  const keys=Object.keys(UNITS).filter(k=>UNITS[k].tower===t);
+  if(keys.length>0){currentUnit=keys[0];renderDetail(currentUnit);}
 }
 
 function renderChips(){
-  const us=getTowerUnits(currentTower);
-  document.getElementById("unit-chips").innerHTML=us.map(u=>
-    '<button class="unit-chip'+(currentUnit===u.id?' active':'')+'" onclick="selectUnit(\''+u.id+'\')">'+u.id+'</button>'
-  ).join('');
+  const wrap=document.getElementById('unit-chips');
+  if(currentTower==='ES'){wrap.innerHTML='';return;}
+  const keys=Object.keys(UNITS).filter(k=>UNITS[k].tower===currentTower);
+  wrap.innerHTML=keys.map(k=>`<div class="unit-chip${k===currentUnit?' active':''}" onclick="selectUnit('${k}')">${k}</div>`).join('');
+  renderDetail(currentUnit);
 }
 
-function selectUnit(id){currentUnit=id;renderChips();renderDetail(id);}
+function selectUnit(id){
+  currentUnit=id;
+  document.querySelectorAll('.unit-chip').forEach(c=>c.classList.remove('active'));
+  event.target.classList.add('active');
+  renderDetail(id);
+}
 
+// ===== DETAIL =====
 function renderDetail(id){
-  const u=getUnit(id);
-  const inC=compareList.includes(id);
-  const lo=minPrice(u),hi=maxPrice(u);
-  const a=u.area;
-  let html='<div class="unit-detail">';
-  // Header card
-  html+='<div class="unit-header-card">';
-  html+='<div class="uh-top"><div><div class="uh-id">'+u.id+'</div><div class="uh-type">'+u.type+'</div></div>';
-  html+='<div class="uh-price-range"><div class="uh-price-label">定價區間</div><div class="uh-price-val">'+lo.toLocaleString()+'～'+hi.toLocaleString()+' 萬</div></div></div>';
-  // 4格坪數
-  html+='<div class="area-grid">';
-  html+='<div class="area-cell"><div class="area-cell-label">主建物室內</div><div class="area-cell-val">'+a.main+'<span class="area-cell-unit">坪</span></div></div>';
-  html+='<div class="area-cell"><div class="area-cell-label">陽台（附屬建物）</div><div class="area-cell-val">'+a.balcony+'<span class="area-cell-unit">坪</span></div></div>';
-  html+='<div class="area-cell"><div class="area-cell-label">公設占坪</div><div class="area-cell-val">'+a.publicSet+'<span class="area-cell-unit">坪</span></div></div>';
-  html+='<div class="area-cell pubset"><div class="area-cell-label">權狀總坪 / 公設比</div><div class="area-cell-val">'+a.total+'坪</div><div class="area-cell-sub">公設比 '+a.publicRatio+'%</div></div>';
-  html+='</div>';
-  // 備注
-  if(u.note) html+='<div style="font-size:11px;color:#8b6030;line-height:1.6;margin-top:10px;padding:8px 10px;background:#2a1f00;border-radius:6px;">📋 '+u.note+'</div>';
-  html+='<button class="add-compare-btn'+(inC?' added':'')+'" onclick="toggleCompare(\''+id+'\')">'+( inC?'✓ 已加入比較':'＋ 加入比較')+'</button>';
-  html+='</div>';
-  // 規格
-  html+='<div class="section-card"><div class="section-title">▸ 規格資訊</div>';
-  u.specs.forEach(s=>{ html+='<div class="spec-row"><div class="spec-label">'+s.l+'</div><div class="spec-val">'+s.v+'</div></div>'; });
-  html+='</div>';
-  // 亮點
-  html+='<div class="section-card"><div class="section-title">▸ 銷售亮點</div>';
-  u.features.forEach(f=>{ html+='<div class="feature-item"><div class="feat-dot"></div><div class="feat-text">'+f+'</div></div>'; });
-  html+='</div>';
-  // 樓層定價
-  html+='<div class="section-card"><div class="section-title">▸ 各樓層定價（車位另計）</div>';
-  html+='<div class="floor-row header-row"><div>樓層</div><div style="text-align:center">權狀坪</div><div style="text-align:center">主建/陽台/公設</div><div style="text-align:right">定價</div></div>';
+  const u=UNITS[id];
+  if(!u){document.getElementById('unit-detail').innerHTML='';return;}
+  const minP=Math.min(...u.floors.map(f=>f.p));
+  const maxP=Math.max(...u.floors.map(f=>f.p));
+  let html=`<div class="d-header">
+    <div class="d-unitname">${u.id}</div>
+    <div class="d-meta">
+      <span class="d-tag">${u.type}</span>
+      <span class="d-tag">${u.ping} 坪</span>
+      <span class="d-tagred">${minP.toLocaleString()} ～ ${maxP.toLocaleString()} 萬</span>
+    </div>
+  </div>
+  <div class="d-area">
+    <div class="d-aitem"><div class="d-alabel">權狀坪數</div><div class="d-aval">${u.ping} 坪</div></div>
+    <div class="d-aitem"><div class="d-alabel">特殊說明</div><div class="d-aval" style="font-size:12px">${u.ping_note}</div></div>
+  </div>
+  <div class="d-area" style="border-top:none;flex-direction:column;gap:4px;">
+    ${u.features.map(f=>`<div style="font-size:12px;color:var(--text2)">・${f}</div>`).join('')}
+  </div>
+  <div class="d-ptitle">各樓層定價</div>
+  <table class="price-table">
+    <thead><tr><th>樓層</th><th>定價（萬）</th><th>備注</th></tr></thead>
+    <tbody>`;
   u.floors.forEach(fl=>{
-    html+='<div class="floor-row'+(fl.special?' special':'')+'">';
-    html+='<div class="fr-floor">'+fl.f+'</div>';
-    html+='<div class="fr-ping">'+fl.total+'坪</div>';
-    html+='<div class="fr-area">'+fl.main+' / '+fl.balcony+' / '+fl.pub+'</div>';
-    html+='<div class="fr-price'+(fl.special?' highlight':'')+'">'+fl.price.toLocaleString()+' 萬</div>';
-    html+='</div>';
+    const isSpec=fl.note||false;
+    const isHigh=fl.p===maxP;
+    const isLow=fl.p===minP;
+    html+=`<tr class="${isSpec?'special-row':''}">
+      <td class="fl">${fl.f}</td>
+      <td class="${isHigh?'pr-hi':isLow?'pr-lo':'pr'}">${fl.p.toLocaleString()}</td>
+      <td style="font-size:11px;color:var(--text3)">${fl.note||''}</td>
+    </tr>`;
   });
-  html+='</div></div>';
-  document.getElementById("unit-detail-area").innerHTML=html;
-  window.scrollTo(0,0);
+  html+=`</tbody></table>`;
+  document.getElementById('unit-detail').innerHTML=html;
+  document.getElementById('unit-detail').scrollIntoView({behavior:'smooth',block:'nearest'});
+}
+
+// ===== COMPARE =====
+function renderCompare(){
+  const chips=document.getElementById('cmp-chips');
+  chips.innerHTML=Object.keys(UNITS).map(k=>{
+    const sel=compareList.includes(k);
+    const dis=!sel&&compareList.length>=3;
+    return `<div class="cmp-chip${sel?' selected':''}${dis?' disabled':''}" onclick="toggleCompare('${k}')">${k}</div>`;
+  }).join('');
+  if(compareList.length===0){document.getElementById('cmp-content').innerHTML='<div class="empty-msg">請選擇 1～3 個戶型進行比較</div>';return;}
+  const units=compareList.map(k=>UNITS[k]);
+  const minPs=units.map(u=>Math.min(...u.floors.map(f=>f.p)));
+  const maxPs=units.map(u=>Math.max(...u.floors.map(f=>f.p)));
+  const minMin=Math.min(...minPs);const maxMax=Math.max(...maxPs);
+  let t=`<table class="cmp-table"><thead><tr><th class="row-label">項目</th>${units.map(u=>`<th>${u.id}</th>`).join('')}</tr></thead><tbody>`;
+  const rows=[
+    ['格局',units.map(u=>u.type)],
+    ['坪數',units.map(u=>u.ping+'坪')],
+    ['最低定價',units.map((u,i)=>`<span class="${minPs[i]===minMin?'cmp-best':''}">${minPs[i].toLocaleString()}</span>`)],
+    ['最高定價',units.map((u,i)=>`<span class="${maxPs[i]===maxMax?'cmp-best':''}">${maxPs[i].toLocaleString()}</span>`)],
+    ['特殊樓層',units.map(u=>u.ping_note)],
+  ];
+  rows.forEach(([label,vals])=>{
+    t+=`<tr><td class="row-label">${label}</td>${vals.map(v=>`<td>${v}</td>`).join('')}</tr>`;
+  });
+  // 共同樓層定價
+  const floorSets=units.map(u=>new Set(u.floors.map(f=>f.f)));
+  const commonFloors=['22F','21F','20F','19F','18F','17F','16F','15F','14F','13F','12F','11F','10F','9F','8F','7F','6F','5F','4F','3F','2F'].filter(f=>floorSets.every(s=>s.has(f)));
+  commonFloors.forEach(fl=>{
+    const ps=units.map(u=>u.floors.find(f=>f.f===fl)?.p||0);
+    const maxP=Math.max(...ps);
+    t+=`<tr><td class="row-label">${fl}</td>${ps.map(p=>`<td><span class="${p===maxP?'cmp-best':''}">${p.toLocaleString()}</span></td>`).join('')}</tr>`;
+  });
+  t+=`</tbody></table>`;
+  document.getElementById('cmp-content').innerHTML=t;
 }
 
 function toggleCompare(id){
-  if(compareList.includes(id)){compareList=compareList.filter(x=>x!==id);}
-  else{ if(compareList.length>=3){alert("最多比較3個戶型");return;} compareList.push(id); }
-  updateCompareBadge();
-  if(currentUnit) renderDetail(currentUnit);
+  const idx=compareList.indexOf(id);
+  if(idx>-1){compareList.splice(idx,1);}
+  else if(compareList.length<3){compareList.push(id);}
+  renderCompare();
 }
-function updateCompareBadge(){
-  const b=document.getElementById("compare-badge");
-  b.textContent=compareList.length;
-  b.className="compare-badge"+(compareList.length>0?" show":"");
-}
-function renderCompareSelector(){
-  document.getElementById("compare-chips").innerHTML=Object.keys(units).map(id=>{
-    const sel=compareList.includes(id);
-    const dis=!sel&&compareList.length>=3;
-    const cls2="cs-chip"+(sel?" selected":"")+(dis?" disabled":"");
-    const oc=dis?"":"toggleCompareChip('"+id+"')";
-    return '<button class="'+cls2+'" onclick="'+oc+'">'+id+'</button>';
-  }).join('');
-}
-function toggleCompareChip(id){toggleCompare(id);renderCompareSelector();renderCompareTable();}
+function clearCompare(){compareList=[];renderCompare();}
 
-function renderCompareTable(){
-  if(compareList.length<2){document.getElementById("compare-table-area").innerHTML='<div class="compare-empty">請選擇至少兩個戶型進行比較</div>';return;}
-  const us=compareList.map(id=>getUnit(id));
-  const cls="ct-"+us.length;
-  const best=(vals,fn)=>{const bv=fn(vals);return vals.map(v=>v===bv);};
-  const pings=us.map(u=>u.area.main);
-  const totals=us.map(u=>u.area.total);
-  const balcs=us.map(u=>u.area.balcony);
-  const pubs=us.map(u=>u.area.publicSet);
-  const pubrs=us.map(u=>u.area.publicRatio);
-  const minps=us.map(u=>minPrice(u));
-  const maxps=us.map(u=>maxPrice(u));
-  const bPing=best(pings,v=>Math.max(...v));
-  const bTotal=best(totals,v=>Math.max(...v));
-  const bMinP=best(minps,v=>Math.min(...v));
-  const bMaxP=best(maxps,v=>Math.min(...v));
-  const bPubR=best(pubrs,v=>Math.min(...v));
-  let t='<div class="compare-table-wrap">';
-  t+='<div class="ct-header '+cls+'"><div class="ct-label">比較項目</div>';
-  us.forEach(u=>{ t+='<div class="ct-cell"><div class="ct-unit-id">'+u.id+'</div><div class="ct-unit-type">'+u.type+'</div></div>'; });
-  t+='</div>';
-  const row=(label,vals,bests,sfx)=>{
-    let r='<div class="ct-row '+cls+'"><div class="ct-label">'+label+'</div>';
-    vals.forEach((v,i)=>{ r+='<div class="ct-cell'+(bests&&bests[i]?' best':'')+'">'+v+(sfx||'')+'</div>'; });
-    return r+'</div>';
-  };
-  t+=row("主建物室內",pings.map(v=>v+"坪"),bPing);
-  t+=row("陽台坪數",balcs.map(v=>v+"坪"),null);
-  t+=row("公設占坪",pubs.map(v=>v+"坪"),null);
-  t+=row("權狀總坪",totals.map(v=>v+"坪"),bTotal);
-  t+=row("公設比",pubrs.map(v=>v+"%"),bPubR);
-  t+=row("最低定價",minps.map(v=>v.toLocaleString()+"萬"),bMinP);
-  t+=row("最高定價",maxps.map(v=>v.toLocaleString()+"萬"),bMaxP);
-  t+=row("格局",us.map(u=>u.type),null);
-  t+='<div class="ct-row '+cls+'"><div class="ct-label">銷售特色</div>';
-  us.forEach(u=>{ t+='<div class="ct-cell" style="text-align:left;font-size:11px;line-height:1.7;padding:12px 14px;">'+u.features.map(f=>"・"+f).join("<br>")+'</div>'; });
-  t+='</div></div>';
-  document.getElementById("compare-table-area").innerHTML=t;
-}
-
+// ===== BUDGET =====
 function searchBudget(){
-  const lo=parseInt(document.getElementById("budget-min").value)||0;
-  const hi=parseInt(document.getElementById("budget-max").value)||999999;
+  const lo=parseInt(document.getElementById('bmin').value)||0;
+  const hi=parseInt(document.getElementById('bmax').value)||999999;
   const results=[];
-  Object.values(units).forEach(u=>{
+  Object.values(UNITS).forEach(u=>{
     u.floors.forEach(fl=>{
-      if(fl.price>=lo&&fl.price<=hi) results.push({unit:u,floor:fl.f,price:fl.price,total:fl.total,main:fl.main});
+      if(fl.p>=lo&&fl.p<=hi) results.push({unit:u,fl});
     });
   });
-  results.sort((a,b)=>a.price-b.price);
-  if(results.length===0){
-    document.getElementById("budget-results").innerHTML='<div class="budget-results"><div class="br-header">查詢結果</div><div class="budget-empty">此預算範圍內無符合戶型，請調整區間</div></div>';
-    return;
-  }
-  let html='<div class="budget-results"><div class="br-header">找到 '+results.length+' 個選項</div>';
+  results.sort((a,b)=>a.fl.p-b.fl.p);
+  const div=document.getElementById('budget-results');
+  if(!results.length){div.innerHTML='<div class="empty-msg">此預算範圍內無符合戶型，請調整區間</div>';return;}
+  let h=`<div class="budget-results"><div class="bres-header">找到 ${results.length} 個選項（由低至高）</div>`;
   results.forEach(r=>{
-    html+='<div class="br-item" onclick="goToUnit(\''+r.unit.id+'\')"><div class="br-left"><div class="br-unit">'+r.unit.id+' · '+r.floor+'</div>';
-    html+='<div class="br-info">權狀'+r.total+'坪｜主建物'+r.main+'坪｜'+r.unit.type+'</div></div>';
-    html+='<div style="display:flex;align-items:center;"><div class="br-price">'+r.price.toLocaleString()+' 萬</div><div class="br-arrow">›</div></div></div>';
+    h+=`<div class="bres-item" onclick="goToUnit('${r.unit.id}')">
+      <div class="bres-left">
+        <div class="bres-unit">${r.unit.id} · ${r.fl.f}</div>
+        <div class="bres-info">${r.unit.type}｜${r.unit.ping}坪${r.fl.note?' ⚠️'+r.fl.note:''}</div>
+      </div>
+      <div style="display:flex;align-items:center;">
+        <div class="bres-price">${r.fl.p.toLocaleString()} 萬</div>
+        <div class="bres-arrow">›</div>
+      </div>
+    </div>`;
   });
-  html+='</div>';
-  document.getElementById("budget-results").innerHTML=html;
+  h+='</div>';
+  div.innerHTML=h;
 }
 
 function goToUnit(id){
-  const u=getUnit(id);currentTower=u.tower;currentUnit=id;
-  document.querySelectorAll(".tower-pill").forEach(p=>p.classList.remove("active"));
-  document.getElementById("tower-"+u.tower).classList.add("active");
-  renderChips();renderDetail(id);showPage("browse");
+  currentTower=UNITS[id].tower;
+  currentUnit=id;
+  document.querySelectorAll('.tower-pill').forEach(p=>p.classList.remove('active'));
+  document.getElementById('tower-'+currentTower).classList.add('active');
+  renderChips();
+  showPage('browse');
 }
 
+// ===== ES =====
+function renderES(){
+  document.getElementById('es-content').innerHTML=ES_UNITS.map(e=>`
+    <div class="es-card">
+      <div style="display:flex;justify-content:space-between;align-items:flex-start;">
+        <div>
+          <div class="es-name">${e.id}</div>
+          <div class="es-floor">樓層：${e.floors}</div>
+        </div>
+        <div class="es-price">${e.price.toLocaleString()} 萬</div>
+      </div>
+      <div class="es-info">
+        <div class="es-ping">坪數：${e.ping} 坪</div>
+      </div>
+      ${e.note?`<div class="es-note">備注：${e.note}</div>`:''}
+    </div>
+  `).join('');
+}
+
+// ===== INIT =====
 renderChips();
 </script>
 </body>
